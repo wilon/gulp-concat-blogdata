@@ -1,9 +1,9 @@
 {
-  "name": "gulp-concat",
-  "description": "Concatenates files",
-  "version": "2.6.0",
-  "repository": "contra/gulp-concat",
-  "author": "Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
+  "name": "gulp-concat-blogdata",
+  "description": "Concatenates md files to json",
+  "version": "0.1.0",
+  "repository": "wilon/gulp-concat-blogdata",
+  "author": "Weilong <wilonx@163.com> (http://wilon.github.io/)",
   "files": [
     "index.js"
   ],

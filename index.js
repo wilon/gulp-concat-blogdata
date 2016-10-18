@@ -66,8 +66,12 @@ module.exports = function(file, opt) {
       concat = new Concat(isUsingSourceMaps, fileName, opt.newLine);
     }
 
+    // 文件名
+    var filename = file.history[0].replace(file.base, '').replace('.md', '');
+    var pre = new Buffer('tagname'+filename+'\n');
+
     // add file to concat instance
-    concat.add(file.relative, file.contents, file.sourceMap);
+    concat.add(file.relative, pre + file.contents, file.sourceMap);
     cb();
   }
 
@@ -89,7 +93,36 @@ module.exports = function(file, opt) {
       joinedFile = new File(file);
     }
 
-    joinedFile.contents = concat.content;
+    // 生成json
+    var allData = concat.content.toString('utf-8'),
+      dataTmp = {}, tagTmp = '',
+      data = [];
+    allData.split('\n').map(function(index, elem) {
+      var line = index.replace(/(^\s*)|(\s*$)/g, '');
+      if (/^tagname/.test(line)) {
+        tagTmp = line.replace(/^tagname/, '');
+        return;
+      }
+      // 空行、语言标记行跳过
+      if (line == '' || /```\w+/.test(line)) {
+          return;
+      }
+      // 语言结束行，结束
+      if (line == '```' && dataTmp != []) {
+          data.push(dataTmp);
+          dataTmp = {};
+          return;
+      }
+      // 标题行
+      if (line.indexOf('###') == 0) {
+          dataTmp.tag = tagTmp;
+          dataTmp.name = line.replace(/^###/, '').replace(/(^\s*)|(\s*$)/g, '');
+          return;
+      }
+      dataTmp.des = (typeof dataTmp.des == 'undefined' ? '' : dataTmp.des) + index.replace(/^\ \ \ \ /, '');
+    });
+
+    joinedFile.contents = new Buffer(JSON.stringify(data));
 
     if (concat.sourceMapping) {
       joinedFile.sourceMap = JSON.parse(concat.sourceMap);
