@@ -6,7 +6,7 @@ support my blog project.  https://github.com/wilon/wilon.github.io
 
 Install package with NPM and add it to your development dependencies:
 
-`npm install --save-dev gulp-concat-blogdata`
+`npm install git://github.com/wilon/gulp-concat-blogdata.git`
 
 ## Information
 
@@ -50,27 +50,27 @@ gulp.task('scripts', function() {
 });
 ```
 
-## example
+## file example
 
 ```md
 
- md file1:
+md file1:
 
- ### the title1
- ```language
-    the content1
+### the title1
+```language
+   the content1
+   ...
+```
+...
+
+result json file:
+[
+    {
+        "tag": "file1",
+        "name": "title1",
+        "des": "    the content1    ..."
+    },
     ...
- ```
- ...
-
- result json file:
- [
-     {
-         "tag": "file1",
-         "name": "title1",
-         "des": "    the content1    ..."
-     },
-     ...
- ]
+]
 
 ```
