@@ -119,7 +119,7 @@ module.exports = function(file, opt) {
           dataTmp.name = line.replace(/^###/, '').replace(/(^\s*)|(\s*$)/g, '');
           return;
       }
-      dataTmp.des = (typeof dataTmp.des == 'undefined' ? '' : dataTmp.des) + index.replace(/^\ \ \ \ /, '');
+      dataTmp.des = (typeof dataTmp.des == 'undefined' ? '' : dataTmp.des) + index.replace(/^\ \ \ \ /, '') + '\n';
     });
 
     joinedFile.contents = new Buffer(JSON.stringify(data));
