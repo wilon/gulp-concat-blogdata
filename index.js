@@ -103,8 +103,13 @@ module.exports = function(file, opt) {
         tagTmp = line.replace(/^tagname/, '');
         return;
       }
-      // 空行、语言标记行跳过
-      if (line == '' || /```\w+/.test(line)) {
+      // 空行
+      if (line == '') {
+        return;
+      }
+      // 语言标记行
+      if (/```\w+/.test(line)) {
+          dataTmp.lang = line.replace(/```/g, '');
           return;
       }
       // 语言结束行，结束
